@@ -19,41 +19,11 @@
         {% endif %}
       </header>
       <div class="body">{{ post['body']|safe }}</div>
-      <div class="comment">
-        <label>评论</label>
-        <div id="comment_edit"></div>
-        <input type="submit" value="畅所欲言" onclick="post_comment()" class="comment_submit" disabled=true/>
-        <!--<div id="comment_content">
-          <ul>
-            <li>
-                <label>username</label>
-                <div class="content">comment_content</div>
-                <div>
-                    <a onclick="show_reply_form(this)" style="cursor:pointer">回复</a>
-                    <div class="reply"></div>
-                </div>
-            </li>
-            <li>
-                <label>username</label>
-                <div class="content">comment_content</div>
-                <div>
-                    <a onclick="show_reply_form(this)" style="cursor:pointer">回复</a>
-                    <div class="reply"></div>
-                </div>
-            </li>
-          </ul>
-        </div>-->
+      
         <script type="text/javascript">
           var converter = new showdown.Converter();
           var html = converter.makeHtml($('.body').html());
           $('.body').html(html)
-          // 初始化 textarea 的值
-          function post_comment(){
-            var content = "dev...";
-            $.post("{{url_for('blog.comment', post_id=post['id'])}}", {content: content}, function(ret){
-              console.log(ret);
-            });
-          }
           /*function show_reply_form(obj){
             var _this = obj;
             var $div = $(_this).parent().children('div');
