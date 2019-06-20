@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Edit {{ post['title'] }}{% endblock %}
+{% block header %}
+{% include 'edit.html' %}
+{% endblock %}
+{% block content %}
+<form method="post">
+  <label for="title">题目</label>
+  <input name="title" id="title" value="{{ request.form['title'] or post['title'] }}" required>
+  
+
+  <div style="float: inherit">
+      <div id="editarea">
+          <label for="body">内容</label>
+          <hr>
+        <textarea name="body" id="body" style="width: 90%;">{{ request.form['body'] or post['body'] }}</textarea>
+      </div>
+      <label for="preview">预览</label>
+      <hr>
+      <div id="preview"></div>
+  </div>
+  
+  <input type="submit" value="Save">
+</form>
+<script type="text/javascript">
+  var converter = new showdown.Converter();
+  var html = converter.makeHtml($('#body').val());
+    $('#preview').html(html)
+  $('#body').bind('input propertychange', function(){
+    var html = converter.makeHtml($(this).val());
+    $('#preview').html(html)
+ });
+</script>
+<hr>
+<form action="{{ url_for('blog.delete', id=post['id']) }}" method="post">
+  <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+</form>
+{% endblock %}

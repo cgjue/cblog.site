@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}{{ post['title'] }}{% endblock %}
+{% block content %}
+  <style>
+    .comment_submit{
+      margin-top: 5px;position: relative;float: right;
+    }
+  </style>
+  <article class="post">
+      <header>
+        <div>
+          <h1>
+          <a href="{{ url_for('blog.view', id=post['id']) }}">{{ post['title'] }}</a>
+          </h1>
+          <div class="about">by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d') }}</div>
+        </div>
+        {% if g.user['id'] == post['author_id'] %}
+          <a class="action" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
+        {% endif %}
+      </header>
+      <div class="body">{{ post['body']|safe }}</div>
+      <div class="comment">
+        <label>评论</label>
+        <div id="comment_edit"></div>
+        <input type="submit" value="畅所欲言" onclick="post_comment()" class="comment_submit" disabled=true/>
+        <!--<div id="comment_content">
+          <ul>
+            <li>
+                <label>username</label>
+                <div class="content">comment_content</div>
+                <div>
+                    <a onclick="show_reply_form(this)" style="cursor:pointer">回复</a>
+                    <div class="reply"></div>
+                </div>
+            </li>
+            <li>
+                <label>username</label>
+                <div class="content">comment_content</div>
+                <div>
+                    <a onclick="show_reply_form(this)" style="cursor:pointer">回复</a>
+                    <div class="reply"></div>
+                </div>
+            </li>
+          </ul>
+        </div>-->
+        <script type="text/javascript">
+          var converter = new showdown.Converter();
+          var html = converter.makeHtml($('.body').html());
+          $('.body').html(html)
+          // 初始化 textarea 的值
+          function post_comment(){
+            var content = "dev...";
+            $.post("{{url_for('blog.comment', post_id=post['id'])}}", {content: content}, function(ret){
+              console.log(ret);
+            });
+          }
+          /*function show_reply_form(obj){
+            var _this = obj;
+            var $div = $(_this).parent().children('div');
+            $div.empty();
+            if($('#comment_reply').length){
+              $('#comment_reply').parent().empty();
+            }
+            $div.append('<div id="comment_reply"></div><input type="submit" class="comment_submit" value="畅所欲言" onclick="reply_comment()"/>');
+            replyEditor = new E('#comment_reply');
+            replyEditor.customConfig.uploadImgShowBase64 = true;
+            replyEditor.create()
+          }*/
+        </script>
+      </div>
+    </article>
+{% endblock %}

@@ -1,0 +1,89 @@
+<!doctype html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-transform"/>
+<title>{% block title %}{% endblock %} - cblog</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='plugins/highlight.min.css') }}">
+<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script src="{{ url_for('static', filename='plugins/highlight.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/showdown.min.js') }}"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-7612436935368287",
+    enable_page_level_ads: true
+  });
+</script>
+{% block header %} {% endblock %}
+<style>
+    #wechat {
+    font-size: 14px;
+    padding: 5px;
+    color: #b94a48;
+    background: #f2dede;
+    line-height: 20px;
+    display: block;
+  }
+  </style>
+</head>
+<body>
+    <view id="wechat">
+        <p>页面重新排版会导致加载变慢，并影响显示效果，<strong>请点击右上角按钮，选择在浏览器中打开，并选择查看原网页</strong></p>
+    </view>
+    <script>
+        function isWechat() {
+          var ua = navigator.userAgent.toLowerCase();
+          return ua.match(/MicroMessenger/i) == "micromessenger" ? true : false 
+        }
+        if(!isWechat())document.getElementById('wechat').style.display='none'
+    </script>
+<nav>
+<div class="leftbar">
+  <div class="favicon">
+      <a href="{{ url_for('index') }}"><img src="{{url_for('static', filename='css/favicon.png')}}"/></a>
+  </div>
+  
+  <section class="category">
+      <ul>
+          {% for category in get_categories() %}
+              <li>
+              <a href="{{ url_for('blog.category', id=category['id']) }}" >{{ category['value'] }}</a>
+              </li>
+          {% endfor %}
+      </ul>
+</section>
+<div class="copyright">
+  <ul>
+    <li onclick="alert('O(∩_∩)O')">©{{ get_nowtime("%Y") }} 珏</li>
+    <li>Flask & Jinja2</li>
+    <li><span style="display: none">wx:cgjuee && qq:467784592</span></li>
+  </ul>
+</div>
+</div>
+<div class="navbar">
+  <ul style="float: right;">
+    {% if g.user %}
+      <li>
+        <a href="{{ url_for('admin.admin') }}" >{{ g.user['username'] }}</a>
+      </li>
+      <li><a href="{{ url_for('auth.logout') }}">退出</a></li>
+    {% else %}
+      <li><a href="{{ url_for('auth.register') }}">注册</a></li>
+      <li><a href="{{ url_for('auth.login') }}">登录</a></li>
+    {% endif %}
+  </ul>
+</div>
+
+</nav>
+
+<section class="content">
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

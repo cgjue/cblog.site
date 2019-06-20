@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin-上传文件{% endblock %}
+{% block header %}
+<script src="{{ url_for('static', filename='plugins/wangEditor/jquery.min.js') }}"></script>
+{% endblock %}
+{% block content %}
+<section>
+    <label for="category">上传文件：</label>
+    <form action="{{ url_for('admin.upload') }}" enctype=multipart/form-data method="POST">
+    <input type='file' name='file' style="width:100px;"/>
+    <input name="addfile" type="submit" value="添加"/>
+  </form>
+</section>
+  {% endblock %}

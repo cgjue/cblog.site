@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}New Post{% endblock %}
+{% block header %}
+{% include 'edit.html' %}
+{% endblock %}
+
+{% block content %}
+
+<form method="post">
+  <label for="title">题目</label>
+  <input name="title" id="title" value="{{ request.form['title'] }}" required />
+  <label for="categories">类别</label>
+  <select name="categories" id="categories" multiple="multiple" size="2" required>
+    {% for category in get_categories() %}
+    <option value="{{ category['id'] }}">{{ category['value'] }}</option>
+    {% endfor %}
+  </select>
+  <div style="float: inherit">
+      <div id="editarea">
+          <label for="body">内容</label>
+          <hr>
+        <textarea name="body" id="body" style="width: 90%;">{{ request.form['body'] }}</textarea>
+      </div>
+      <label for="preview">预览</label>
+      <hr>
+      <div id="preview"></div>
+  </div>
+  <input type="submit" value="Save" />
+</form>
+<script type="text/javascript">
+  var converter = new showdown.Converter();
+  var html = converter.makeHtml($('#body').val());
+    $('#preview').html(html)
+  $('#body').bind('input propertychange', function(){
+    var html = converter.makeHtml($(this).val());
+    $('#preview').html(html)
+ });
+</script>
+{% endblock %}
