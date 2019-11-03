@@ -74,3 +74,17 @@ CREATE TABLE uploadfile (
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES user (id)
 );
+
+CREATE TABLE plugin(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    script TEXT NOT NULL
+);
+create TABLE use_plugin(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,    
+    post_id INTEGER NOT NULL,
+    plugin_id INTEGER NOT NULL,    
+    use INTEGER CHECK(use >=0 AND use <=1),
+    FOREIGN KEY (post_id) REFERENCES post (id),
+    FOREIGN KEY (plugin_id) REFERENCES plugin (id)
+);

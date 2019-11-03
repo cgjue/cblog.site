@@ -32,7 +32,7 @@ def create_app(test_config=None):
     db.init_app(app)
 
     # apply the blueprints to the app
-    from cblog import auth, blog, admin
+    from cblog import auth, blog, admin, plugin
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)
     app.register_blueprint(admin.bp)
@@ -52,7 +52,8 @@ def create_app(test_config=None):
     @app.template_global()
     def get_nowtime(format="%Y-%m-%d %H:%M:%S"):
         return time.strftime(format, time.localtime())
-    
+
+   
     @app.errorhandler(404)
     def page_not_found(error):
         return render_template('404.html'), 404

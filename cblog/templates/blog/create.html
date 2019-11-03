@@ -15,25 +15,37 @@
     <option value="{{ category['id'] }}">{{ category['value'] }}</option>
     {% endfor %}
   </select>
-  <div style="float: inherit">
-      <div id="editarea">
-          <label for="body">内容</label>
-          <hr>
-        <textarea name="body" id="body" style="width: 90%;">{{ request.form['body'] }}</textarea>
-      </div>
-      <label for="preview">预览</label>
-      <hr>
-      <div id="preview"></div>
+  <hr>
+  <label for="body">正文</label>
+  <div id="editor-md">
+  <textarea style="display:none;" name="body" id="body">{{ request.form['body'] }}</textarea>
   </div>
   <input type="submit" value="Save" />
 </form>
 <script type="text/javascript">
-  var converter = new showdown.Converter();
-  var html = converter.makeHtml($('#body').val());
-    $('#preview').html(html)
-  $('#body').bind('input propertychange', function(){
-    var html = converter.makeHtml($(this).val());
-    $('#preview').html(html)
- });
+var testEditor;
+
+$(function() {
+    testEditor = editormd("editor-md", {
+        width   : "100%",
+        height  : 640,
+        syncScrolling : "single",
+        path    : "{{ url_for('static', filename='plugins/editormd/lib/') }}",
+        theme : "dark",
+        previewTheme : "dark",
+        editorTheme : "pastel-on-dark",
+        codeFold : true,
+        searchReplace : true,
+        emoji : true,
+        taskList : true,
+        tocm: true,         // Using [TOCM]
+        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+        flowChart : true,             // 开启流程图支持，默认关闭
+        sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+        imageUpload : true,
+        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+        imageUploadURL : "{{url_for('admin.upload_img')}}",
+    });
+});
 </script>
 {% endblock %}

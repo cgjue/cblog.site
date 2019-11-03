@@ -8,7 +8,16 @@
 <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <script src="{{ url_for('static', filename='plugins/highlight.min.js') }}"></script>
 <script src="{{ url_for('static', filename='plugins/jquery.min.js') }}"></script>
-<script src="{{ url_for('static', filename='plugins/showdown.min.js') }}"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='plugins/editormd/css/editormd.preview.css')}}" />
+<script src="{{ url_for('static', filename='plugins/editormd/lib/marked.min.js')}}"></script>
+<script src="{{ url_for('static', filename='plugins/editormd/lib/prettify.min.js')}}"></script>
+<script src="{{ url_for('static', filename='plugins/editormd/lib/raphael.min.js')}}"></script>
+<script src="{{ url_for('static', filename='plugins/editormd/lib/underscore.min.js')}}"></script>
+<script src="{{ url_for('static', filename='plugins/editormd/lib/sequence-diagram.min.js')}}"></script>
+<script src="{{ url_for('static', filename='plugins/editormd/lib/flowchart.min.js')}}"></script>
+<script src="{{ url_for('static', filename='plugins/editormd//lib/jquery.flowchart.min.js')}}"></script>
+<script src="{{ url_for('static', filename='plugins/editormd/editormd.min.js') }}"></script>
+<script src="{{url_for('static', filename='plugins/valine//Valine.min.js')}}"></script>
 <script>
   (adsbygoogle = window.adsbygoogle || []).push({
     google_ad_client: "ca-pub-7612436935368287",

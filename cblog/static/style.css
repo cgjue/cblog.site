@@ -232,3 +232,14 @@ table a:hover{
   float: left;
   width: 50%;
 }
+
+#pluginCode{
+  display: flex;
+  width: 100%;
+}
+.btn {
+  display: flex;
+}
+.right{
+  margin-left: 95%;
+}

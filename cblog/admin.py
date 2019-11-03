@@ -10,6 +10,7 @@ from cblog.auth import login_required
 from werkzeug.utils import secure_filename
 import os, time
 from flask import current_app
+import cblog.plugin as plugin
 bp = Blueprint('admin', __name__)
 
 @bp.route('/admin/index.html', methods = ('GET','POST'))
@@ -25,7 +26,7 @@ def admin():
         'uploadfile where user_id = ?', 
         (session['user_id'], )
     ).fetchall()
-    return render_template('admin/admin.html', posts = posts, uploadfiles = uploadfiles)
+    return render_template('admin/admin.html', **locals())
 @bp.route('/admin/addCategory', methods = ("POST", ))
 @login_required
 def addCategory():
@@ -68,7 +69,7 @@ def deleteCategory():
 
 ALLOWED_EXTENSIONS = set(['txt', 'rtf', 'odf', 'ods', 'gnumeric', 'abw', 'doc', 'docx', 
 'xls', 'xlsx', 'jpg', 'jpe', 'jpeg', 'png', 'gif', 'svg', 'bmp', 'csv', 'ini', 'json', 
-'plist', 'xml', 'yaml', 'yml','pdf', 'exe', 'zip', 'rar', 'py', 'js', 'css'])
+'plist', 'xml', 'yaml', 'yml','pdf', 'exe', 'zip', 'rar', 'py', 'js', 'css', 'webp'])
 
 
 def allowed_file(filename):
@@ -82,22 +83,22 @@ def upload():
     # check if the post request has the file part
     if 'file' not in request.files:
         flash('No file part')
-        return redirect(url_for('admin.admin'))
-    file = request.files.get('file', default=None)
-    # if user does not select file, browser also
-    # submit an empty part without filename
-    if not file or file.filename == '':
-        flash('No selected file')
-    elif not allowed_file(file.filename):
-        flash(u'禁止上传该类型文件')
     else:
-        filename = str(int(time.time())) + secure_filename(file.filename)
-        file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-        db = get_db()
-        db.execute('INSERT INTO uploadfile(fpath, user_id) VALUES(?, ?)',
-        (os.path.join(current_app.config['UPLOAD_FOLDER'][len(current_app.root_path):],
-         filename), session['user_id']))
-        db.commit()
+        file = request.files.get('file', default=None)
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if not file or file.filename == '':
+            flash('No selected file')
+        elif not allowed_file(file.filename):
+            flash(u'禁止上传该类型文件')
+        else:
+            filename = str(int(time.time())) + secure_filename(file.filename)
+            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            db = get_db()
+            db.execute('INSERT INTO uploadfile(fpath, user_id) VALUES(?, ?)',
+            (os.path.join(current_app.config['UPLOAD_FOLDER'][len(current_app.root_path):],
+            filename), session['user_id']))
+            db.commit()
     return redirect(url_for('admin.admin'))
 
 @bp.route('/admin/deleteFile.html?<int:id>', methods=('POST',))
@@ -117,3 +118,100 @@ def deleteFile(id):
 def download(filename):
     return send_from_directory(current_app.config['UPLOAD_FOLDER'],
                                filename)
+
+
+@bp.route('/admin/upload.html', methods = ('POST', ))
+@login_required
+def upload_img():
+    # check if the post request has the file part
+    message = ''
+    if 'file' not in request.files:
+        message = 'No file part'
+    else:
+        file = request.files.get('file', default=None)
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if not file or file.filename == '':
+            message = 'No selected file'
+        elif not allowed_file(file.filename):
+            message = u'禁止上传该类型文件'
+        else:
+            filename = str(int(time.time())) + secure_filename(file.filename)
+            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            filepath = os.path.join(current_app.config['UPLOAD_FOLDER'][len(current_app.root_path):],
+             filename)
+            db = get_db()
+            db.execute('INSERT INTO uploadfile(fpath, user_id) VALUES(?, ?)',
+            (filepath, session['user_id']))
+            db.commit()
+            return jsonify({
+                "success" : 1,           # 0 表示上传失败，1 表示上传成功
+                "message" : message,
+                "url"     : filepath       # 上传成功时才返回
+            })
+    
+    return jsonify({
+            "success" : 0,           # 0 表示上传失败，1 表示上传成功
+            "message" : message,
+            "url"     : None        # 上传成功时才返回
+    })
+
+@bp.route('/admin/plugin_update', methods=('POST',))
+@login_required
+def plugin_update():
+    plugin_id = request.form.get('plugin_id', default=None)
+    plugin_script = request.form.get('plugin_script', default=None)
+    plugin_name = request.form.get('plugin_name', default=None)
+    if plugin_id and plugin_script and plugin_name:
+        plugin.update_plugin(int(plugin_id), plugin_name, plugin_script)
+        return jsonify({
+            "success": 1
+        })
+    return jsonify({
+        'success': 0,
+        "msg": "参数不全"
+    })
+
+@bp.route('/admin/plugin_set', methods=('POST',))
+@login_required
+def plugin_set():
+    plugin_id = request.form.get('plugin_id', default=None)
+    post_id = request.form.get('post_id', default=None)
+    use = request.form.get('use', default=None)
+    if plugin_id and post_id and use:
+        plugin.set_plugin(int(plugin_id), int(post_id), int(use))
+        return jsonify({
+            "success" : 1
+        })
+    return jsonify({
+        "success": 0,
+        "msg": "参数不全"
+    })
+@bp.route('/admin/plugin_add', methods=('POST',))
+@login_required
+def plugin_add():
+    plugin_name = request.form.get('plugin_name', default=None)
+    plugin_script = request.form.get('plugin_script', default = None)
+    if plugin_name and plugin_script:
+        plugin_id = plugin.add_plugin(plugin_name, plugin_script)
+    return jsonify({
+        "success": 1,
+        "plugin_id" : plugin_id
+    })
+
+@bp.route('/admin/plugin_query', methods=('GET',))
+@login_required
+def plugin_query():
+    posts = get_db().execute(
+        'SELECT p.id, title, author_id'
+        ' FROM post p JOIN user u ON p.author_id = u.id'
+        ' WHERE p.author_id = ?',
+        (session['user_id'],)
+    ).fetchall()
+    plugin_list = plugin.get_plugin()
+    plugin_use = plugin.use_plugin_all()
+    return jsonify({
+        "posts": posts,
+        "plugin_list": plugin_list,
+        "plugin_use": plugin_use,
+    })

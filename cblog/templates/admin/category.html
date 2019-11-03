@@ -1,0 +1,15 @@
+<section>
+    <label for="category">类别：</label>
+    <form action="{{ url_for('admin.addCategory') }}" method="POST">
+    <input name="category" id="category"/>
+    <input name="addCategory" type="submit" value="添加"/>
+  </form>
+  <form action="{{ url_for('admin.deleteCategory') }}" method="POST">
+    <select name="categories" id="categories" multiple="multiple" size="2">
+    {% for category in get_categories() %}
+        <option value ="{{ category['id'] }}">{{ category['value'] }}</option>
+    {% endfor %}
+    </select>
+    <input name="deleteCategory" type="submit" value="删除"/>
+  </form>
+</section>

@@ -6,7 +6,7 @@ from werkzeug.exceptions import abort
 
 from cblog.auth import login_required
 from cblog.db import get_db
-
+from cblog.plugin import get_plugin, use_plugin
 
 
 bp = Blueprint('blog', __name__)
@@ -73,8 +73,6 @@ def category(id=None):
         ' WHERE category_id = ? ) ORDER BY created DESC',
         (id,)
         ).fetchall()
-        for item in posts:
-            print(item)
         return render_template('blog/category.html', posts = posts, category = category)
         
 @bp.route('/view/<id>.html', methods=('GET', 'POST'))
@@ -83,7 +81,17 @@ def view(id=None):
         return redirect(url_for('blog.index'))
     else:
         post = get_post(id, False)
-        return render_template('blog/view.html', post = post)
+        scripts = ''
+        plugin = get_plugin()
+        use_p = use_plugin(id)
+        for i in plugin:
+            add = True
+            for j in use_p:
+                if j['plugin_id'] == i['id'] and j['use'] == 0:
+                    add = False
+            if add:
+                scripts +=i['script'] + '\n'
+        return render_template('blog/view.html', **locals())
 
 @bp.route('/admin/createblog.html', methods=('GET', 'POST'))
 @login_required
@@ -105,19 +113,21 @@ def create():
             flash(error)
         else:
             db = get_db()
-            temp = db.execute(
-                'SELECT max(id) FROM post'
-            ).fetchone()
-            post_id = 1
+            
+            post_id = -1
             try:
-                post_id += temp[0]
-            except:
-                pass
-            db.execute(
-                'INSERT INTO post (id, title, body, author_id)'
-                ' VALUES (?, ?, ?, ?)',
-                (post_id, title, body, g.user['id'])
-            )
+                db.execute(
+                'INSERT INTO post (title, body, author_id)'
+                ' VALUES (?, ?, ?)',
+                (title, body, g.user['id'])
+                )
+                db.commit()
+                post_id = db.execute(
+                'SELECT max(id) FROM post'
+            ).fetchone()[0]
+            except Exception as e:
+                print(e)
+            
             print(category_ids)
             for cid in category_ids:
                 db.execute(

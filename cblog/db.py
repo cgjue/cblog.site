@@ -4,6 +4,8 @@ import click
 from flask import current_app, g
 from flask.cli import with_appcontext
 
+def dict_factory(cursor, row):
+    return dict((col[0], row[idx]) for idx, col in enumerate(cursor.description))
 
 def get_db():
     """Connect to the application's configured database. The connection
@@ -15,7 +17,7 @@ def get_db():
             current_app.config['DATABASE'],
             detect_types=sqlite3.PARSE_DECLTYPES
         )
-        g.db.row_factory = sqlite3.Row
+        g.db.row_factory = dict_factory
 
     return g.db
 

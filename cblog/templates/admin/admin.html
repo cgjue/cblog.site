@@ -1,90 +1,77 @@
-{% extends 'base.html' %}
+<!doctype html>
 
-{% block title %}Admin{% endblock %}
-{% block header %}
-<script src="{{ url_for('static', filename='plugins/wangEditor/jquery.min.js') }}"></script>
-{% endblock %}
-{% block content %}
-<section>
-    <label for="category">类别：</label>
-    <form action="{{ url_for('admin.addCategory') }}" method="POST">
-    <input name="category" id="category"/>
-    <input name="addCategory" type="submit" value="添加"/>
-  </form>
-  <form action="{{ url_for('admin.deleteCategory') }}" method="POST">
-    <select name="categories" id="categories" multiple="multiple" size="2">
-    {% for category in get_categories() %}
-        <option value ="{{ category['id'] }}">{{ category['value'] }}</option>
-    {% endfor %}
-    </select>
-    <input name="deleteCategory" type="submit" value="删除"/>
-  </form>
-</section>
-<section>
-    <label for="category">上传文件：</label>
-    <form action="{{ url_for('admin.upload') }}" enctype=multipart/form-data method="POST">
-    <input type=file name=file>
-    <input name="addfile" type="submit" value="添加"/>
-  </form>
-  <table>
-    <caption>
-      <h1>已上传文件列表(<span id="filenum">{{ uploadfiles|length }})</span></h1>
-    </caption>
-    <tr>
-      <th>文件名</th>
-      <th>上传时间</th>
-      <th>删除</th>
-    </tr>
-    {% for file in uploadfiles %}
-    <tr>
-      <td>{{ file['fpath'] }}</td>
-      <td>{{ file['created'] }}</td>
-      <td><a href="javascript:void(0);" onclick="deleteObject(this, '{{ url_for('admin.deleteFile', id=file['id']) }}', '#filenum');">Delete</a></td>
-    </tr>
-    {% endfor %}
-  </table>
-</section>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <title>Admin- cblog</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/highlight.min.css') }}">
+  <script src="{{ url_for('static', filename='plugins/highlight.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='plugins/jquery.min.js') }}"></script>
+ 
+</head>
 
-<section>
-<table>
-  <caption><h1>Posts(<span id="postsnum">{{ posts|length }}</span>)<a href="{{ url_for('blog.create') }}" style="margin-left: 50px">New</a></h1>
-  </caption>
-  <tr>
-    <th>题目</th>
-    <th>创建时间</th>
-    <th>修改时间</th>
-    <th>编辑</th>
-    <th>评论数</th>
-    <th>删除</th>
-  </tr>
-  {% for post in posts %}
-  <tr>
-    <td><a href="{{ url_for('blog.view', id=post['id']) }}">{{ post['title'] }}</a></td>
-    <td>{{ post['created'].strftime('%Y-%m-%d') }}</td>
-    <td>{{ post['updated'].strftime('%Y-%m-%d') }}</td>
-    <td><a href="{{ url_for('blog.update', id=post['id']) }}">编辑</a></td>
-    <td><a href="#" onclick="alert(’开发中‘);">x</a></td>
-    <td>
-        <a href="javascript:void(0);" onclick="deleteObject(this, '{{ url_for('blog.delete', id=post['id']) }}', '#postsnum');">Delete</a>
-    </td>
-  </tr>
-  {% endfor %}
-</table>
-</section>
+<body>
+  <div id="adminApp">
+  <nav>
+    <div class="leftbar">
+      <div class="favicon">
+        <a href="{{ url_for('index') }}"><img src="{{url_for('static', filename='css/favicon.png')}}" /></a>
+      </div>
+
+      <section class="category" >
+        <ul>
+
+          <li>
+            <router-link to="/category">类别</router-link>
+            <router-link to="/file">文件</router-link>
+            <router-link to="/plugin">插件</router-link>
+            <router-link to="/article">文章</router-link>
+          </li>
+          
+        </ul>
+      </section>
+      <div class="copyright">
+        <ul>
+          <li onclick="alert('O(∩_∩)O')">©{{ get_nowtime("%Y") }} 珏</li>
+          <li>Flask & Jinja2</li>
+          <li><span style="display: none">wx:cgjuee && qq:467784592</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="navbar">
+      <ul style="float: right;">
+        {% if g.user %}
+        <li>
+          <a href="{{ url_for('admin.admin') }}">{{ g.user['username'] }}</a>
+        </li>
+        <li><a href="{{ url_for('auth.logout') }}">退出</a></li>
+        {% else %}
+        <li><a href="{{ url_for('auth.register') }}">注册</a></li>
+        <li><a href="{{ url_for('auth.login') }}">登录</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  <section class="content">
+    {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+    <router-view ></router-view>
+  </section>
+</div>
+<script src="{{ url_for('static', filename='plugins/vue.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='plugins/vue-router.min.js') }}"></script>
+ <script src="{{url_for('static', filename='plugins/dblog.js')}}"></script>
+ 
 <script type="text/javascript">
-function deleteObject(obj, val, htmlid){
-  var con = confirm('Are you sure?');
-  if(con){
-    $.post(val,null, function(data,status){
-      if(typeof(data.status) != "undefined" && data.status!=0){
-        alert(data.msg)
-        return;
-      }
-      $(obj).parents('tr').remove();
-      $(htmlid).text(parseInt($(htmlid).text())-1);
+const category = { template: `{% include "admin/category.html"%}`};
+const file = {template: `{% include "admin/file.html"%}`};
+const plugin = {template: `{% include "admin/plugin.html"%}`};
+const article = {template: `{% include "admin/article.html"%}`};
 
-    })
-  }
-}
 </script>
-{% endblock %}
+ <script src="{{url_for('static', filename='plugins/admin.js')}}"></script>
+</body>
+
+</html>
