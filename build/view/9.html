@@ -1,0 +1,196 @@
+<!doctype html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-transform"/>
+<title>华硕Fl8000un安装黑苹果10.14.5 - cblog</title>
+<link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="/static/plugins/highlight.min.css">
+<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script src="/static/plugins/highlight.min.js"></script>
+<script src="/static/plugins/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/plugins/editormd/css/editormd.preview.css" />
+<script src="/static/plugins/editormd/lib/marked.min.js"></script>
+<script src="/static/plugins/editormd/lib/prettify.min.js"></script>
+<script src="/static/plugins/editormd/lib/raphael.min.js"></script>
+<script src="/static/plugins/editormd/lib/underscore.min.js"></script>
+<script src="/static/plugins/editormd/lib/sequence-diagram.min.js"></script>
+<script src="/static/plugins/editormd/lib/flowchart.min.js"></script>
+<script src="/static/plugins/editormd//lib/jquery.flowchart.min.js"></script>
+<script src="/static/plugins/editormd/editormd.min.js"></script>
+<script src="/static/plugins/valine//Valine.min.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-7612436935368287",
+    enable_page_level_ads: true
+  });
+</script>
+ 
+<style>
+    #wechat {
+    font-size: 14px;
+    padding: 5px;
+    color: #b94a48;
+    background: #f2dede;
+    line-height: 20px;
+    display: block;
+  }
+  </style>
+</head>
+<body>
+    <view id="wechat">
+        <p>页面重新排版会导致加载变慢，并影响显示效果，<strong>请点击右上角按钮，选择在浏览器中打开，并选择查看原网页</strong></p>
+    </view>
+    <script>
+        function isWechat() {
+          var ua = navigator.userAgent.toLowerCase();
+          return ua.match(/MicroMessenger/i) == "micromessenger" ? true : false 
+        }
+        if(!isWechat())document.getElementById('wechat').style.display='none'
+    </script>
+<nav>
+<div class="leftbar">
+  <div class="favicon">
+      <a href="/"><img src="/static/css/favicon.png"/></a>
+  </div>
+  
+  <section class="category">
+      <ul>
+          
+              <li>
+              <a href="/category/13.html" >exploit</a>
+              </li>
+          
+              <li>
+              <a href="/category/11.html" >Mac</a>
+              </li>
+          
+              <li>
+              <a href="/category/10.html" >Tool</a>
+              </li>
+          
+              <li>
+              <a href="/category/9.html" >Game</a>
+              </li>
+          
+              <li>
+              <a href="/category/1.html" >Web</a>
+              </li>
+          
+      </ul>
+</section>
+<div class="copyright">
+  <ul>
+    <li onclick="alert('O(∩_∩)O')">©2019 珏</li>
+    <li>Flask & Jinja2</li>
+    <li><span style="display: none">wx:cgjuee && qq:467784592</span></li>
+  </ul>
+</div>
+</div>
+<div class="navbar">
+  <ul style="float: right;">
+    
+      <li><a href="/auth/register.html">注册</a></li>
+      <li><a href="/auth/login.html">登录</a></li>
+    
+  </ul>
+</div>
+
+</nav>
+
+<section class="content">
+  
+  
+  <style>
+    .comment_submit{
+      margin-top: 5px;position: relative;float: right;
+    }
+  </style>
+  <article class="post">
+      <header>
+        <div>
+          <h1>
+          <a href="/view/9.html">华硕Fl8000un安装黑苹果10.14.5</a>
+          </h1>
+          <div class="about">by self on 2019-06-19
+          <span id="/view/9.html" class="leancloud_visitors" data-flag-title="华硕Fl8000un安装黑苹果10.14.5">
+              <em class="post-meta-item-text">access </em>
+              <i class="leancloud-visitors-count"></i>
+          </span>
+          </div>
+        </div>
+        
+      </header>
+      <div id="editor-md"># 华硕fl8000un安装黑苹果10.14.5
+## 准备
+1. 下载带clover的镜像[https://blog.daliansky.net/macOS-Mojave-10.14.5-18F132-official-version-with-Clover-4928-original-image.html](黑果小兵macOS-10.14.5)
+2. 下载TransMac.exe
+3. 一个至少8G的U盘
+4. Bios版本305（306，308目前在我的电脑上不能用，若版本较高，使用WinFlash.exe /nodate 降级）
+5. 使用磁盘管理工具分出一个70G的分区
+
+## 安装
+1.  使用TransMac.exe将U盘格式化为Mac磁盘格式，并使用Restore Image功能将下载的镜像刻录到U盘。
+2.  重启电脑进入Bios设置，关闭Secure Boot，并修改启动项为U盘启动。
+3.  在Clover启动项中选择Install MacOS from Install ...项，即U盘启动项
+4.  在安装界面中选择磁盘工具，在“显示”项中选择显示所有设备，将提前规划好的分区格式化为APFS格式（格式化时选择一个好点的名字如macos）
+5.  返回选择安装Macos，选择安装磁盘位置macos，进行安装
+6.  安装进程会将镜像解压并重启，在启动项中选择Preboot项，系统会继续安装，等待重启（若很快重启，再选择这个项，大概需要等十几分钟）
+7.  重启后选择从macos启动，完成简单的配置，即安装完成
+8.  使用Clover Configure挂载EFI分区，将U盘中的EFI分区中的文件拷贝到电脑的EFI分区
+## 系统完善
+1.  修复WIFI， 下载kext utility，打开后，将从[https://blog.daliansky.net/macOS-Mojave-10.14.5-18F132-official-version-with-Clover-4928-original-image.html](AirPortAtheros40.kext)下载的AirPortAtheros40.kext拖拽进去，重启（目前能找到连接WIFI，但网速特慢，不知如何解决）
+2.  修复声卡，使用Clover Configure挂载EFI分区，并打开配置文件config.plist，在Devices项中的Audio注入id=11，保存重启
+3.  修复显卡，使用Clover Configure挂载EFI分区，并打开配置文件config.plist，在Graphics项中将ig-platform-id项中写入0x591b0000，并勾选InjectIntel项，在Devices项中，将IntelGFX项值设为0x59168086，保存重启(在windows下发现自己的显卡id是0x59178086,这是我需要注入的原因吧)
+4.  蓝牙问题，需要先启动下windows，再重启进入macos才能启动蓝牙，貌似macos不能直接冷启动蓝牙
+5.  安装USB网卡，百度HoRNDIS，下载并安装重启
+6.  安装xtralFinder永久使用版，增强Finder功能
+7.  安装karabiner，交换left_option和left_command项。
+8.  修复触摸板，因为我的触摸板是I2C的，从github上下载VOODOOI2C，重启后驱动
+9.  开启hidpi，在github上搜索hidpi，选择one-key-hidpi，里面有个一键开启的命令，重启后，在显示器上选择缩放，并选择合适的分辨率。
+10.  USB网卡，某宝买rtl8811au的usb网卡，在网上搜索到驱动，安装后重启（自带光盘驱动，可惜没光驱。。。）
+## 常用软件
+1. 网易云音乐
+2. QQ
+3. 微信
+4. 搜狗拼音
+5. 根据需要安装想装的软件</div>
+      <div id="vcomments"></div>
+    <script>
+        valine = new Valine({
+            el: '#vcomments',
+            appId: '60wyh0DJ1SRlQ407ocEYnwX6-gzGzoHsz',
+            appKey: 'QBr4ziKrU4SRReFuhICueCUv',
+            visitor: true,
+            verify: true,
+            notify: true,
+            recordIP:true,
+        })
+    </script>
+        <script type="text/javascript">
+        var testEditor;
+$(function() {
+var html = $('#editor-md').html()
+$('#editor-md').html('<textarea stle="display:none">'+ html + '</textarea>')
+              testEditor = editormd.markdownToHTML("editor-md", {
+                  
+                  codeFold : true,
+                  emoji : true,
+                  taskList : true,
+                  tocm: true,         // Using [TOCM]
+                  tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                  flowChart : true,             // 开启流程图支持，默认关闭
+                  sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+                  
+              });
+              
+          });
+
+        </script>
+      </div>
+    </article>
+
+</section>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

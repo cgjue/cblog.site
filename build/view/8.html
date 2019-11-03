@@ -1,0 +1,197 @@
+<!doctype html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-transform"/>
+<title>俄罗斯方块 - cblog</title>
+<link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="/static/plugins/highlight.min.css">
+<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script src="/static/plugins/highlight.min.js"></script>
+<script src="/static/plugins/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/plugins/editormd/css/editormd.preview.css" />
+<script src="/static/plugins/editormd/lib/marked.min.js"></script>
+<script src="/static/plugins/editormd/lib/prettify.min.js"></script>
+<script src="/static/plugins/editormd/lib/raphael.min.js"></script>
+<script src="/static/plugins/editormd/lib/underscore.min.js"></script>
+<script src="/static/plugins/editormd/lib/sequence-diagram.min.js"></script>
+<script src="/static/plugins/editormd/lib/flowchart.min.js"></script>
+<script src="/static/plugins/editormd//lib/jquery.flowchart.min.js"></script>
+<script src="/static/plugins/editormd/editormd.min.js"></script>
+<script src="/static/plugins/valine//Valine.min.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-7612436935368287",
+    enable_page_level_ads: true
+  });
+</script>
+ 
+<style>
+    #wechat {
+    font-size: 14px;
+    padding: 5px;
+    color: #b94a48;
+    background: #f2dede;
+    line-height: 20px;
+    display: block;
+  }
+  </style>
+</head>
+<body>
+    <view id="wechat">
+        <p>页面重新排版会导致加载变慢，并影响显示效果，<strong>请点击右上角按钮，选择在浏览器中打开，并选择查看原网页</strong></p>
+    </view>
+    <script>
+        function isWechat() {
+          var ua = navigator.userAgent.toLowerCase();
+          return ua.match(/MicroMessenger/i) == "micromessenger" ? true : false 
+        }
+        if(!isWechat())document.getElementById('wechat').style.display='none'
+    </script>
+<nav>
+<div class="leftbar">
+  <div class="favicon">
+      <a href="/"><img src="/static/css/favicon.png"/></a>
+  </div>
+  
+  <section class="category">
+      <ul>
+          
+              <li>
+              <a href="/category/13.html" >exploit</a>
+              </li>
+          
+              <li>
+              <a href="/category/11.html" >Mac</a>
+              </li>
+          
+              <li>
+              <a href="/category/10.html" >Tool</a>
+              </li>
+          
+              <li>
+              <a href="/category/9.html" >Game</a>
+              </li>
+          
+              <li>
+              <a href="/category/1.html" >Web</a>
+              </li>
+          
+      </ul>
+</section>
+<div class="copyright">
+  <ul>
+    <li onclick="alert('O(∩_∩)O')">©2019 珏</li>
+    <li>Flask & Jinja2</li>
+    <li><span style="display: none">wx:cgjuee && qq:467784592</span></li>
+  </ul>
+</div>
+</div>
+<div class="navbar">
+  <ul style="float: right;">
+    
+      <li><a href="/auth/register.html">注册</a></li>
+      <li><a href="/auth/login.html">登录</a></li>
+    
+  </ul>
+</div>
+
+</nav>
+
+<section class="content">
+  
+  
+  <style>
+    .comment_submit{
+      margin-top: 5px;position: relative;float: right;
+    }
+  </style>
+  <article class="post">
+      <header>
+        <div>
+          <h1>
+          <a href="/view/8.html">俄罗斯方块</a>
+          </h1>
+          <div class="about">by self on 2018-12-27
+          <span id="/view/8.html" class="leancloud_visitors" data-flag-title="俄罗斯方块">
+              <em class="post-meta-item-text">access </em>
+              <i class="leancloud-visitors-count"></i>
+          </span>
+          </div>
+        </div>
+        
+      </header>
+      <div id="editor-md">俄罗斯方块是小时候特别喜欢玩的游戏，很能消磨时间。然而长大了却不再玩了，以为不管方块再怎么堆放，总有堆满的时候，似乎是一场永远没有最终胜利的游戏，而所谓的通关，亦不过达到了某个标准的认可而已。尽管如此，俄罗斯方块里还是有很多耐人寻味的道理
+1 越到后来，难度越大
+2 每一次都不同没有绝对的公平可言
+3 获得的成功总会渐渐的在把控不当的情况下消失
+4 犯下的错误会积累走错一步，要用几步来弥补
+5 专注和冷静最重要你的心态决定你能走多远
+6 做点什么，比什么都不做要好
+7 合群你就会消失但是不合群就会被盯上...
+	俄罗斯方块， 据说有人曾用60行代码就能实现，但下载了源码，效果不够理想，也许是因为那样的代码只是实现了其中的关键部分，而游戏的积分规则、等级和难度设置都需要进一步的设置吧。
+	在网上找了些代码，终于找到一份比较不错的代码，至少这份代码更容易被人阅读吧。俄罗斯方块在实现时，有两个方面的难点吧，一是七种方块的定义和变换的描述，二是方块的统计和消除。简单来说，每种方块的定义可以用4个(0,8)的X,Y坐标点描述，而方块的旋转变换，则可选择其中一个方块为相对原点，参考几何数学上的坐标旋转规则来推到出其他方块的位置。
+```
+* 方块旋转   * 顺时针：   * A.x =O.y + O.x - B.y   * A.y =O.y - O.x + B.x
+```
+方块的统计和消除可以利用二维坐标来实现，令方块坐标所在点为1，则一行全为1的可被消除。
+```
+for (var i = 0; i < block.length; i++) {
+	var flag = true;
+    var y = block[i].y;
+	for (var j = 0; j < maxX; j++) {
+		if (gameMap[y][j] == false) {
+			flag = false;
+			break;
+		}
+	}
+	if (flag) {
+		count +=1;
+		for (var i = y; i > 0; i--) {
+			for (var j = 0; j < maxX; j++) {
+				gameMap[i][j] = gameMap[i - 1][j];
+			}
+		}
+	} 
+}
+```
+游戏源码在此[https://game.cblog.site/round.html](俄罗斯方块)</div>
+      <div id="vcomments"></div>
+    <script>
+        valine = new Valine({
+            el: '#vcomments',
+            appId: '60wyh0DJ1SRlQ407ocEYnwX6-gzGzoHsz',
+            appKey: 'QBr4ziKrU4SRReFuhICueCUv',
+            visitor: true,
+            verify: true,
+            notify: true,
+            recordIP:true,
+        })
+    </script>
+        <script type="text/javascript">
+        var testEditor;
+$(function() {
+var html = $('#editor-md').html()
+$('#editor-md').html('<textarea stle="display:none">'+ html + '</textarea>')
+              testEditor = editormd.markdownToHTML("editor-md", {
+                  
+                  codeFold : true,
+                  emoji : true,
+                  taskList : true,
+                  tocm: true,         // Using [TOCM]
+                  tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                  flowChart : true,             // 开启流程图支持，默认关闭
+                  sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+                  
+              });
+              
+          });
+
+        </script>
+      </div>
+    </article>
+
+</section>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!doctype html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-transform"/>
+<title>crossover破解 - cblog</title>
+<link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="/static/plugins/highlight.min.css">
+<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script src="/static/plugins/highlight.min.js"></script>
+<script src="/static/plugins/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/plugins/editormd/css/editormd.preview.css" />
+<script src="/static/plugins/editormd/lib/marked.min.js"></script>
+<script src="/static/plugins/editormd/lib/prettify.min.js"></script>
+<script src="/static/plugins/editormd/lib/raphael.min.js"></script>
+<script src="/static/plugins/editormd/lib/underscore.min.js"></script>
+<script src="/static/plugins/editormd/lib/sequence-diagram.min.js"></script>
+<script src="/static/plugins/editormd/lib/flowchart.min.js"></script>
+<script src="/static/plugins/editormd//lib/jquery.flowchart.min.js"></script>
+<script src="/static/plugins/editormd/editormd.min.js"></script>
+<script src="/static/plugins/valine//Valine.min.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-7612436935368287",
+    enable_page_level_ads: true
+  });
+</script>
+ 
+<style>
+    #wechat {
+    font-size: 14px;
+    padding: 5px;
+    color: #b94a48;
+    background: #f2dede;
+    line-height: 20px;
+    display: block;
+  }
+  </style>
+</head>
+<body>
+    <view id="wechat">
+        <p>页面重新排版会导致加载变慢，并影响显示效果，<strong>请点击右上角按钮，选择在浏览器中打开，并选择查看原网页</strong></p>
+    </view>
+    <script>
+        function isWechat() {
+          var ua = navigator.userAgent.toLowerCase();
+          return ua.match(/MicroMessenger/i) == "micromessenger" ? true : false 
+        }
+        if(!isWechat())document.getElementById('wechat').style.display='none'
+    </script>
+<nav>
+<div class="leftbar">
+  <div class="favicon">
+      <a href="/"><img src="/static/css/favicon.png"/></a>
+  </div>
+  
+  <section class="category">
+      <ul>
+          
+              <li>
+              <a href="/category/13.html" >exploit</a>
+              </li>
+          
+              <li>
+              <a href="/category/11.html" >Mac</a>
+              </li>
+          
+              <li>
+              <a href="/category/10.html" >Tool</a>
+              </li>
+          
+              <li>
+              <a href="/category/9.html" >Game</a>
+              </li>
+          
+              <li>
+              <a href="/category/1.html" >Web</a>
+              </li>
+          
+      </ul>
+</section>
+<div class="copyright">
+  <ul>
+    <li onclick="alert('O(∩_∩)O')">©2019 珏</li>
+    <li>Flask & Jinja2</li>
+    <li><span style="display: none">wx:cgjuee && qq:467784592</span></li>
+  </ul>
+</div>
+</div>
+<div class="navbar">
+  <ul style="float: right;">
+    
+      <li><a href="/auth/register.html">注册</a></li>
+      <li><a href="/auth/login.html">登录</a></li>
+    
+  </ul>
+</div>
+
+</nav>
+
+<section class="content">
+  
+  
+  <style>
+    .comment_submit{
+      margin-top: 5px;position: relative;float: right;
+    }
+  </style>
+  <article class="post">
+      <header>
+        <div>
+          <h1>
+          <a href="/view/10.html">crossover破解</a>
+          </h1>
+          <div class="about">by self on 2019-11-03
+          <span id="/view/10.html" class="leancloud_visitors" data-flag-title="crossover破解">
+              <em class="post-meta-item-text">access </em>
+              <i class="leancloud-visitors-count"></i>
+          </span>
+          </div>
+        </div>
+        
+      </header>
+      <div id="editor-md">### 根源：
+	crossover使用非对称加密，公钥可被替换，账号格式可通过阅读crossover的python文件得到，自己创建公私钥可替换之，从而注册成功，整个注册过程不涉及网络交互。
+### 破解代码
+```
+# coding: utf-8
+
+# In[1]:
+
+
+import sys
+import os
+base = "/opt/cxoffice"
+private_key_path = base + "/share/crossover/data/private_key.pem"
+pub_key_path = base + "/share/crossover/data/tie.pub"
+license_path = base + "/etc/license.txt"
+license_sig = base + "/etc/license.sig"
+
+
+# In[2]:
+
+
+sys.path.append(base + "/lib/python/")
+
+
+# In[3]:
+
+
+import cxutils
+'''
+import cxconfig
+conf["crosslin"]["customer"]="kkk"
+conf["crosslin"]["expires"]="2199/03/20"
+conf["license"]["id"]="12345678"
+file_obj = open(license_path, "w")
+for block in conf.blocks:
+    for line in block:
+        if line is not None:
+            file_obj.write(line)
+file_obj.close()
+'''
+##奇葩的文件锁，主要是了解文件格式是怎样的就行了
+
+args = ("openssl", "genrsa", "-out", private_key_path, "2048")
+cxutils.run(args, stdout=cxutils.NULL, stderr=cxutils.NULL)
+args = ("openssl", "rsa", "-in", private_key_path, "-pubout", "-out", pub_key_path)
+cxutils.run(args, stdout=cxutils.NULL, stderr=cxutils.NULL)
+
+lic = '''
+[crosslin]
+"customer" = "kkk"
+"expires" = "2199/03/20"
+
+[license]
+"id" = "12345678"
+'''
+with open(license_path, "w") as f:
+    f.write(lic)
+
+
+args = ("openssl", "dgst", "-sha1", "-sign", private_key_path, "-out", license_sig, license_path)
+cxutils.run(args, stdout=cxutils.NULL, stderr=cxutils.NULL)
+
+
+```</div>
+      <div id="vcomments"></div>
+    <script>
+        valine = new Valine({
+            el: '#vcomments',
+            appId: '60wyh0DJ1SRlQ407ocEYnwX6-gzGzoHsz',
+            appKey: 'QBr4ziKrU4SRReFuhICueCUv',
+            visitor: true,
+            verify: true,
+            notify: true,
+            recordIP:true,
+        })
+    </script>
+        <script type="text/javascript">
+        var testEditor;
+$(function() {
+var html = $('#editor-md').html()
+$('#editor-md').html('<textarea stle="display:none">'+ html + '</textarea>')
+              testEditor = editormd.markdownToHTML("editor-md", {
+                  
+                  codeFold : true,
+                  emoji : true,
+                  taskList : true,
+                  tocm: true,         // Using [TOCM]
+                  tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                  flowChart : true,             // 开启流程图支持，默认关闭
+                  sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+                  
+              });
+              
+          });
+
+        </script>
+      </div>
+    </article>
+
+</section>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

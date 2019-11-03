@@ -1,0 +1,197 @@
+<!doctype html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-transform"/>
+<title>微信浏览网页自动转码提示之解决方案 - cblog</title>
+<link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="/static/plugins/highlight.min.css">
+<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script src="/static/plugins/highlight.min.js"></script>
+<script src="/static/plugins/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/plugins/editormd/css/editormd.preview.css" />
+<script src="/static/plugins/editormd/lib/marked.min.js"></script>
+<script src="/static/plugins/editormd/lib/prettify.min.js"></script>
+<script src="/static/plugins/editormd/lib/raphael.min.js"></script>
+<script src="/static/plugins/editormd/lib/underscore.min.js"></script>
+<script src="/static/plugins/editormd/lib/sequence-diagram.min.js"></script>
+<script src="/static/plugins/editormd/lib/flowchart.min.js"></script>
+<script src="/static/plugins/editormd//lib/jquery.flowchart.min.js"></script>
+<script src="/static/plugins/editormd/editormd.min.js"></script>
+<script src="/static/plugins/valine//Valine.min.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-7612436935368287",
+    enable_page_level_ads: true
+  });
+</script>
+ 
+<style>
+    #wechat {
+    font-size: 14px;
+    padding: 5px;
+    color: #b94a48;
+    background: #f2dede;
+    line-height: 20px;
+    display: block;
+  }
+  </style>
+</head>
+<body>
+    <view id="wechat">
+        <p>页面重新排版会导致加载变慢，并影响显示效果，<strong>请点击右上角按钮，选择在浏览器中打开，并选择查看原网页</strong></p>
+    </view>
+    <script>
+        function isWechat() {
+          var ua = navigator.userAgent.toLowerCase();
+          return ua.match(/MicroMessenger/i) == "micromessenger" ? true : false 
+        }
+        if(!isWechat())document.getElementById('wechat').style.display='none'
+    </script>
+<nav>
+<div class="leftbar">
+  <div class="favicon">
+      <a href="/"><img src="/static/css/favicon.png"/></a>
+  </div>
+  
+  <section class="category">
+      <ul>
+          
+              <li>
+              <a href="/category/13.html" >exploit</a>
+              </li>
+          
+              <li>
+              <a href="/category/11.html" >Mac</a>
+              </li>
+          
+              <li>
+              <a href="/category/10.html" >Tool</a>
+              </li>
+          
+              <li>
+              <a href="/category/9.html" >Game</a>
+              </li>
+          
+              <li>
+              <a href="/category/1.html" >Web</a>
+              </li>
+          
+      </ul>
+</section>
+<div class="copyright">
+  <ul>
+    <li onclick="alert('O(∩_∩)O')">©2019 珏</li>
+    <li>Flask & Jinja2</li>
+    <li><span style="display: none">wx:cgjuee && qq:467784592</span></li>
+  </ul>
+</div>
+</div>
+<div class="navbar">
+  <ul style="float: right;">
+    
+      <li><a href="/auth/register.html">注册</a></li>
+      <li><a href="/auth/login.html">登录</a></li>
+    
+  </ul>
+</div>
+
+</nav>
+
+<section class="content">
+  
+  
+  <style>
+    .comment_submit{
+      margin-top: 5px;position: relative;float: right;
+    }
+  </style>
+  <article class="post">
+      <header>
+        <div>
+          <h1>
+          <a href="/view/4.html">微信浏览网页自动转码提示之解决方案</a>
+          </h1>
+          <div class="about">by self on 2018-05-23
+          <span id="/view/4.html" class="leancloud_visitors" data-flag-title="微信浏览网页自动转码提示之解决方案">
+              <em class="post-meta-item-text">access </em>
+              <i class="leancloud-visitors-count"></i>
+          </span>
+          </div>
+        </div>
+        
+      </header>
+      <div id="editor-md">	在微信中查看互联网上分享的网页时，由于微信的自动网页转码机制，导致部分页面无法正常显示。
+	由于绑定域名，需要购买云服务器，并需要备案，流程比较繁琐，所以考虑在代码中给用户以提示，让其在系统浏览器上查看页面。
+	最初的想法是判断是否在微信中浏览，如果是，就给予提示，否则就不给予提示，但是编写过程中，发现在微信中无法操作document，导致提示无法正常进行。
+	后来，灵光一闪，决定反其道而行之，既然在微信中js代码不能正常运行，那就提前准备好异常显示提醒，如果js代码能正常运行，那就把异常显示提醒抹去；反之，异常显示提醒则会展示在用户的浏览界面上。部分代码如下：
+```
+<style> 
+#wechat {
+	font-size: 14px;
+	padding: 5px;
+	color: #b94a48;
+	background: #f2dede; 
+	line-height: 20px; 
+	display: block;  
+} 
+</style>
+<view id="wechat">
+	<p>页面重新排版会导致加载变慢，并影响显示效果，
+		<strong>请点击右上角按钮，选择在浏览器中打开，并选择查看原网页
+		</strong>
+	</p>
+</view> 
+<script>
+function isWechat() {
+	var ua = navigator.userAgent.toLowerCase();
+	return ua.match(/MicroMessenger/i) == "micromessenger" ? true : false         
+} 
+if(!isWechat())
+	document.getElementById('wechat').style.display='none'    </script>
+```
+后期发展：而后，想了想，根据这种想法，判断是不是在微信中运行是多余的，于是只保留了
+```
+document.getElementById('wechat').style.display='none'
+```
+结果在微信中浏览时，发现竟然没有异常提示了。想了想原因，应该和js代码的加载顺序有关，最初的时候，我将代码放在<head>里，代码提前运行，而<body>尚未加载，导致找不到想要修改的元素。
+所以，最终的解决方案，还是看自己爱好吧，在微信中，还是提示可能存在的自动转码吧，尽管在微信中访问原网页还是会提示这些。</div>
+      <div id="vcomments"></div>
+    <script>
+        valine = new Valine({
+            el: '#vcomments',
+            appId: '60wyh0DJ1SRlQ407ocEYnwX6-gzGzoHsz',
+            appKey: 'QBr4ziKrU4SRReFuhICueCUv',
+            visitor: true,
+            verify: true,
+            notify: true,
+            recordIP:true,
+        })
+    </script>
+        <script type="text/javascript">
+        var testEditor;
+$(function() {
+var html = $('#editor-md').html()
+$('#editor-md').html('<textarea stle="display:none">'+ html + '</textarea>')
+              testEditor = editormd.markdownToHTML("editor-md", {
+                  
+                  codeFold : true,
+                  emoji : true,
+                  taskList : true,
+                  tocm: true,         // Using [TOCM]
+                  tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                  flowChart : true,             // 开启流程图支持，默认关闭
+                  sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+                  
+              });
+              
+          });
+
+        </script>
+      </div>
+    </article>
+
+</section>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!doctype html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-transform"/>
+<title>cblog可以使用了 - cblog</title>
+<link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="/static/plugins/highlight.min.css">
+<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script src="/static/plugins/highlight.min.js"></script>
+<script src="/static/plugins/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/plugins/editormd/css/editormd.preview.css" />
+<script src="/static/plugins/editormd/lib/marked.min.js"></script>
+<script src="/static/plugins/editormd/lib/prettify.min.js"></script>
+<script src="/static/plugins/editormd/lib/raphael.min.js"></script>
+<script src="/static/plugins/editormd/lib/underscore.min.js"></script>
+<script src="/static/plugins/editormd/lib/sequence-diagram.min.js"></script>
+<script src="/static/plugins/editormd/lib/flowchart.min.js"></script>
+<script src="/static/plugins/editormd//lib/jquery.flowchart.min.js"></script>
+<script src="/static/plugins/editormd/editormd.min.js"></script>
+<script src="/static/plugins/valine//Valine.min.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-7612436935368287",
+    enable_page_level_ads: true
+  });
+</script>
+ 
+<style>
+    #wechat {
+    font-size: 14px;
+    padding: 5px;
+    color: #b94a48;
+    background: #f2dede;
+    line-height: 20px;
+    display: block;
+  }
+  </style>
+</head>
+<body>
+    <view id="wechat">
+        <p>页面重新排版会导致加载变慢，并影响显示效果，<strong>请点击右上角按钮，选择在浏览器中打开，并选择查看原网页</strong></p>
+    </view>
+    <script>
+        function isWechat() {
+          var ua = navigator.userAgent.toLowerCase();
+          return ua.match(/MicroMessenger/i) == "micromessenger" ? true : false 
+        }
+        if(!isWechat())document.getElementById('wechat').style.display='none'
+    </script>
+<nav>
+<div class="leftbar">
+  <div class="favicon">
+      <a href="/"><img src="/static/css/favicon.png"/></a>
+  </div>
+  
+  <section class="category">
+      <ul>
+          
+              <li>
+              <a href="/category/13.html" >exploit</a>
+              </li>
+          
+              <li>
+              <a href="/category/11.html" >Mac</a>
+              </li>
+          
+              <li>
+              <a href="/category/10.html" >Tool</a>
+              </li>
+          
+              <li>
+              <a href="/category/9.html" >Game</a>
+              </li>
+          
+              <li>
+              <a href="/category/1.html" >Web</a>
+              </li>
+          
+      </ul>
+</section>
+<div class="copyright">
+  <ul>
+    <li onclick="alert('O(∩_∩)O')">©2019 珏</li>
+    <li>Flask & Jinja2</li>
+    <li><span style="display: none">wx:cgjuee && qq:467784592</span></li>
+  </ul>
+</div>
+</div>
+<div class="navbar">
+  <ul style="float: right;">
+    
+      <li><a href="/auth/register.html">注册</a></li>
+      <li><a href="/auth/login.html">登录</a></li>
+    
+  </ul>
+</div>
+
+</nav>
+
+<section class="content">
+  
+  
+  <style>
+    .comment_submit{
+      margin-top: 5px;position: relative;float: right;
+    }
+  </style>
+  <article class="post">
+      <header>
+        <div>
+          <h1>
+          <a href="/view/1.html">cblog可以使用了</a>
+          </h1>
+          <div class="about">by self on 2018-05-13
+          <span id="/view/1.html" class="leancloud_visitors" data-flag-title="cblog可以使用了">
+              <em class="post-meta-item-text">access </em>
+              <i class="leancloud-visitors-count"></i>
+          </span>
+          </div>
+        </div>
+        
+      </header>
+      <div id="editor-md"># 在flask例子flaskr的基础上改的。
+#cblog.site网站源代码。
+	使用sqlite3数据库， 登录后可编辑新页面。
+	使用命令```python genStaticHtml.py``` 可导出所有静态页面，在github page上浏览，效果还可以。
+# 文章生成使用了wangEditor.js ,代码高亮使用highlight.min.js
+# 启动web服务 ```$python app.py```
+# 数据库初始化 ```$flask initdb```
+# 注册账号需要邀请码，自己往数据库表welcode中添加即可，注册页面中邀请码输入栏禁止输入，要自己想办法输进去    
+	tips: 浏览器页面中修改标签属性
+# 生成静态页面
+	在web服务正常运行的前提下，使用命令 ```python genStaticHtml.py```生成静态页面
+# 上传静态页面到github page 
+	修改uploadcgjue.site.io.sh 中的github地址，
+	然后运行$sh uploadcgjue.site.io.sh
+
+## next step:    
+1. 增加上传文件功能，方便引入自己的脚本和图片等。   
+2. 增加评论功能，对于静态网站来说，
+引用第三方的评论插件就行了吧。
+[cblog.site源码](https://github.com/cgjue/cblog.site "cblog.site源码")
+
+## 2019.11.03
+修改了cblog的后台管理界面，改用editor.md作为markdown编辑插件，并设置了是否使用editor.md的页面功能选项，引入valine作为评论插件，并使用server酱作为访问提示，好吧，谁看了我的文章，我都能收到提示，毕竟太少有人可能访问我的文章了。</div>
+      <div id="vcomments"></div>
+    <script>
+        valine = new Valine({
+            el: '#vcomments',
+            appId: '60wyh0DJ1SRlQ407ocEYnwX6-gzGzoHsz',
+            appKey: 'QBr4ziKrU4SRReFuhICueCUv',
+            visitor: true,
+            verify: true,
+            notify: true,
+            recordIP:true,
+        })
+    </script>
+        <script type="text/javascript">
+        var testEditor;
+$(function() {
+var html = $('#editor-md').html()
+$('#editor-md').html('<textarea stle="display:none">'+ html + '</textarea>')
+              testEditor = editormd.markdownToHTML("editor-md", {
+                  
+                  codeFold : true,
+                  emoji : true,
+                  taskList : true,
+                  tocm: true,         // Using [TOCM]
+                  tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                  flowChart : true,             // 开启流程图支持，默认关闭
+                  sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+                  
+              });
+              
+          });
+
+        </script>
+      </div>
+    </article>
+
+</section>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
