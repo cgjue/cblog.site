@@ -2,6 +2,7 @@
 from bs4 import BeautifulSoup
 import requests
 from urllib.parse import urlparse
+import urllib
 import os
 import re
 import traceback
@@ -23,7 +24,7 @@ def reqUrlRec(url):
             return
         #获取目录
         print(tempurl)
-        tempurl = os.path.realpath(urlparse(tempurl).path)
+        tempurl = os.path.realpath(urlparse(urllib.parse.unquote(tempurl)).path)
         if tempurl in learned:
             return
         dirs = re.match(pattern, tempurl).group(1)

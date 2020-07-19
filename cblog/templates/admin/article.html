@@ -15,7 +15,7 @@
         </tr>
         {% for post in posts %}
         <tr>
-            <td><a href="{{ url_for('blog.view', id=post['id']) }}">{{ post['title'] }}</a></td>
+            <td><a href="{{ url_for('blog.view', id=post['id'])}}">{{ post['title'] }}</a></td>
             <td>{{ post['created'].strftime('%Y-%m-%d') }}</td>
             <td>{{ post['updated'].strftime('%Y-%m-%d') }}</td>
             <td><a href="{{ url_for('blog.update', id=post['id']) }}">编辑</a></td>

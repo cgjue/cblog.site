@@ -7,7 +7,7 @@ from werkzeug.exceptions import abort
 from cblog.auth import login_required
 from cblog.db import get_db
 from cblog.plugin import get_plugin, use_plugin
-
+import traceback
 
 bp = Blueprint('blog', __name__)
 
@@ -60,9 +60,10 @@ def category(id=None):
     if id is None:
         return redirect(url_for('blog.index'))
     else:
+        _id = id.split('_')[0]
         category = get_db().execute(
             'SELECT value FROM category where id = ?',
-            (id, )
+            (_id, )
         ).fetchone()
         if category is None:
             return render_template('404.html')
@@ -71,7 +72,7 @@ def category(id=None):
         ' FROM post p JOIN user u ON p.author_id = u.id'
         ' WHERE p.id in (SELECT post_id from category_post'
         ' WHERE category_id = ? ) ORDER BY created DESC',
-        (id,)
+        (_id,)
         ).fetchall()
         return render_template('blog/category.html', posts = posts, category = category)
         
@@ -80,10 +81,11 @@ def view(id=None):
     if id is None:
         return redirect(url_for('blog.index'))
     else:
-        post = get_post(id, False)
+        _id = id.split('_')[0]
+        post = get_post(_id, False)
         scripts = ''
         plugin = get_plugin()
-        use_p = use_plugin(id)
+        use_p = use_plugin(_id)
         for i in plugin:
             add = True
             for j in use_p:
@@ -121,22 +123,27 @@ def create():
                 ' VALUES (?, ?, ?)',
                 (title, body, g.user['id'])
                 )
-                db.commit()
+		
                 post_id = db.execute(
-                'SELECT max(id) FROM post'
-            ).fetchone()[0]
+                'SELECT max(id) as mid FROM post'
+            ).fetchone()['mid']
+                print(post_id)
+                db.commit()
             except Exception as e:
                 print(e)
-            
-            print(category_ids)
-            for cid in category_ids:
-                db.execute(
-                    'INSERT INTO category_post(category_id, post_id)'
-                    'VALUES (?, ?)',
-                    (cid, post_id)
-                )
-            db.commit()
-            return redirect(url_for('blog.index'))
+                traceback.print_exc()
+            if post_id != -1: 
+                print(category_ids)
+                for cid in category_ids:
+                    db.execute(
+                        'INSERT INTO category_post(category_id, post_id)'
+                        'VALUES (?, ?)',
+                        (cid, post_id)
+                    )
+                db.commit()
+            else:
+                print('insert error')
+        return redirect(url_for('blog.index'))
 
     return render_template('blog/create.html')
 
