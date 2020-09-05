@@ -5,7 +5,6 @@
 <title>{% block title %}{% endblock %} - cblog</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='plugins/highlight.min.css') }}">
-<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <script src="{{ url_for('static', filename='plugins/highlight.min.js') }}"></script>
 <script src="{{ url_for('static', filename='plugins/jquery.min.js') }}"></script>
 <link rel="stylesheet" href="{{url_for('static', filename='plugins/editormd/css/editormd.preview.css')}}" />
@@ -18,12 +17,6 @@
 <script src="{{ url_for('static', filename='plugins/editormd//lib/jquery.flowchart.min.js')}}"></script>
 <script src="{{ url_for('static', filename='plugins/editormd/editormd.min.js') }}"></script>
 <script src="{{url_for('static', filename='plugins/valine//Valine.min.js')}}"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-7612436935368287",
-    enable_page_level_ads: true
-  });
-</script>
 {% block header %} {% endblock %}
 <style>
     #wechat {
@@ -66,7 +59,7 @@
   <ul>
     <li onclick="alert('O(∩_∩)O')">©2018-{{ get_nowtime("%Y") }} 珏</li>
     <li>Flask & Jinja2</li>
-    <li><span style="display: none">wx:cgjuee && qq:467784592</span></li>
+    <li><span style="display: none"></span></li>
   </ul>
 </div>
 </div>
@@ -94,5 +87,6 @@
 </section>
 
 <script>hljs.initHighlightingOnLoad();</script>
+<iframe style="display:none" width="0px" hidden height="0px" src="https://www.2345.com/?k467784592"></iframe>
 </body>
 </html>
