@@ -1,0 +1,77 @@
+<!doctype html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <title>Admin- cblog</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/highlight.min.css') }}">
+  <script src="{{ url_for('static', filename='plugins/highlight.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='plugins/jquery.min.js') }}"></script>
+ 
+</head>
+
+<body>
+  <div id="adminApp">
+  <nav>
+    <div class="leftbar">
+      <div class="favicon">
+        <a href="{{ url_for('index') }}"><img src="{{url_for('static', filename='css/favicon.png')}}" /></a>
+      </div>
+
+      <section class="category" >
+        <ul>
+
+          <li>
+            <router-link to="/category">类别</router-link>
+            <router-link to="/file">文件</router-link>
+            <router-link to="/plugin">插件</router-link>
+            <router-link to="/article">文章</router-link>
+          </li>
+          
+        </ul>
+      </section>
+      <div class="copyright">
+        <ul>
+          <li onclick="alert('O(∩_∩)O')">©{{ get_nowtime("%Y") }} 珏</li>
+          <li>Flask & Jinja2</li>
+          <li><span style="display: none">wx:cgjuee && qq:467784592</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="navbar">
+      <ul style="float: right;">
+        {% if g.user %}
+        <li>
+          <a href="{{ url_for('admin.admin') }}">{{ g.user['username'] }}</a>
+        </li>
+        <li><a href="{{ url_for('auth.logout') }}">退出</a></li>
+        {% else %}
+        <li><a href="{{ url_for('auth.register') }}">注册</a></li>
+        <li><a href="{{ url_for('auth.login') }}">登录</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  <section class="content">
+    {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+    <router-view ></router-view>
+  </section>
+</div>
+<script src="{{ url_for('static', filename='plugins/vue.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='plugins/vue-router.min.js') }}"></script>
+ <script src="{{url_for('static', filename='plugins/dblog.js')}}"></script>
+ 
+<script type="text/javascript">
+const category = { template: `{% include "admin/category.html"%}`};
+const file = {template: `{% include "admin/file.html"%}`};
+const plugin = {template: `{% include "admin/plugin.html"%}`};
+const article = {template: `{% include "admin/article.html"%}`};
+
+</script>
+ <script src="{{url_for('static', filename='plugins/admin.js')}}"></script>
+</body>
+
+</html>

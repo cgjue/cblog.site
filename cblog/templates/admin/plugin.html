@@ -1,0 +1,22 @@
+<section>
+    <label for="plugin">插件：</label>
+    <select name="plugin-choice"  id="plugin-choice" onchange="getpluginSelected()">
+    </select>
+    
+        <input name="plugin-add" id="plugin-add" type="text" style="margin-top: 3px;">
+        <button class="" onclick="pluginAdd()">添加</button>
+        <button class="" onclick="pluginDelete()">删除</button>
+    <hr>
+        <label for="pluginCode">代码段：</label>
+        <textarea id="pluginCode"></textarea>
+        <button class="btn right" onclick="pluginUpdate()">更新</button>
+    <hr>
+<label for="pluginState">使用情况：</label>
+    <table id="plugin-table">
+        <tr>
+            <th>题目</th>
+            <th>插件状态</th>
+        </tr>
+        
+    </table>
+</section>

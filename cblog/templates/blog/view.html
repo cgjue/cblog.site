@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}{{ post['title'] }}{% endblock %}
+{% block content %}
+<style>
+  .comment_submit {
+    margin-top: 5px;
+    position: relative;
+    float: right;
+  }
+</style>
+<article class="post">
+  <header>
+    <div>
+      <h1>
+        <a href="{{ url_for('blog.view', id=(post['id']|string)+'_'+post['title']) }}">{{ post['title'] }}</a>
+      </h1>
+      <div class="about">by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d') }}
+        <span id="{{ url_for('blog.view', id=(post['id']|string)+'_'+post['title']) }}" class="leancloud_visitors"
+          data-flag-title="{{ post['title'] }}">
+          <em class="post-meta-item-text">access </em>
+          <i class="leancloud-visitors-count"></i>
+        </span>
+      </div>
+    </div>
+    {% if g.user['id'] == post['author_id'] %}
+    <a class="action" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
+    {% endif %}
+  </header>
+  <div id="editor-md">{{ post['body']|safe }}</div>
+  <div id="vcomments"></div>
+
+  <script type="text/javascript">
+    {{ scripts | safe }}
+  </script>
+  </div>
+</article>
+{% endblock %}

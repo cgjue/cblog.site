@@ -1,0 +1,92 @@
+<!doctype html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-transform"/>
+<title>{% block title %}{% endblock %} - cblog</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='plugins/highlight.min.css') }}">
+<script src="{{ url_for('static', filename='plugins/highlight.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/jquery.min.js') }}"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='plugins/editormd/css/editormd.preview.css')}}" />
+<script src="{{ url_for('static', filename='plugins/editormd/lib/marked.min.js')}}"></script>
+<script src="{{ url_for('static', filename='plugins/editormd/lib/prettify.min.js')}}"></script>
+<script src="{{ url_for('static', filename='plugins/editormd/lib/raphael.min.js')}}"></script>
+<script src="{{ url_for('static', filename='plugins/editormd/lib/underscore.min.js')}}"></script>
+<script src="{{ url_for('static', filename='plugins/editormd/lib/sequence-diagram.min.js')}}"></script>
+<script src="{{ url_for('static', filename='plugins/editormd/lib/flowchart.min.js')}}"></script>
+<script src="{{ url_for('static', filename='plugins/editormd//lib/jquery.flowchart.min.js')}}"></script>
+<script src="{{ url_for('static', filename='plugins/editormd/editormd.min.js') }}"></script>
+<script src="{{url_for('static', filename='plugins/valine//av-min.js')}}"></script>
+<script src="{{url_for('static', filename='plugins/valine//Valine.min.js')}}"></script>
+{% block header %} {% endblock %}
+<style>
+    #wechat {
+    font-size: 14px;
+    padding: 5px;
+    color: #b94a48;
+    background: #f2dede;
+    line-height: 20px;
+    display: block;
+  }
+  </style>
+</head>
+<body>
+    <view id="wechat">
+        <p>页面重新排版会导致加载变慢，并影响显示效果，<strong>请点击右上角按钮，选择在浏览器中打开，并选择查看原网页</strong></p>
+    </view>
+    <script>
+        function isWechat() {
+          var ua = navigator.userAgent.toLowerCase();
+          return ua.match(/MicroMessenger/i) == "micromessenger" ? true : false 
+        }
+        if(!isWechat())document.getElementById('wechat').style.display='none'
+    </script>
+<nav>
+<div class="leftbar">
+  <div class="favicon">
+      <a href="{{ url_for('index') }}"><img src="{{url_for('static', filename='css/favicon.png')}}"/></a>
+  </div>
+  
+  <section class="category">
+      <ul>
+          {% for category in get_categories() %}
+              <li>
+              <a href="{{ url_for('blog.category', id=category['id']) }}" >{{ category['value'] }}</a>
+              </li>
+          {% endfor %}
+      </ul>
+</section>
+<div class="copyright">
+  <ul>
+    <li onclick="alert('O(∩_∩)O')">©2018-{{ get_nowtime("%Y") }} 珏</li>
+    <li>Flask & Jinja2</li>
+    <li><span style="display: none"></span></li>
+  </ul>
+</div>
+</div>
+<div class="navbar">
+  <ul style="float: right;">
+    {% if g.user %}
+      <li>
+        <a href="{{ url_for('admin.admin') }}" >{{ g.user['username'] }}</a>
+      </li>
+      <li><a href="{{ url_for('auth.logout') }}">退出</a></li>
+    {% else %}
+      <li><a href="{{ url_for('auth.register') }}">注册</a></li>
+      <li><a href="{{ url_for('auth.login') }}">登录</a></li>
+    {% endif %}
+  </ul>
+</div>
+
+</nav>
+
+<section class="content">
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

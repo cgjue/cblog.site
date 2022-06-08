@@ -1,0 +1,25 @@
+<section>
+  <label for="category">上传文件：</label>
+  <form action="{{ url_for('admin.upload') }}" enctype=multipart/form-data method="POST">
+    <input type=file name=file>
+    <input name="addfile" type="submit" value="添加" />
+  </form>
+  <table>
+    <caption>
+      <h1>已上传文件列表(<span id="filenum">{{ uploadfiles|length }})</span></h1>
+    </caption>
+    <tr>
+      <th>文件名</th>
+      <th>上传时间</th>
+      <th>删除</th>
+    </tr>
+    {% for file in uploadfiles %}
+    <tr>
+      <td>{{ file['fpath'] }}</td>
+      <td>{{ file['created'] }}</td>
+      <td><a href="javascript:void(0);"
+          onclick="deleteObject(this, '{{ url_for('admin.deleteFile', id=file['id']) }}', '#filenum');">Delete</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+</section>

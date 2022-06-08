@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Index{% endblock %}
+{% block content %}
+<div style="text-align:center;margin-top: 100px;">
+   <img   src="{{ url_for('static', filename='404.png') }}"/>
+   <h1 style="color: red;">想搞事？别闹！</h1>
+   <hr>
+   <h1><span id="backing">3</span>秒后返回</h1>
+   <script type="text/javascript">
+    var maxnum = 5, minnum = 1;
+    function goBack()
+    {
+        if(minnum >=maxnum){
+            document.getElementById("backing").innerHTML =0;
+            history.back();
+        }else
+        document.getElementById("backing").innerHTML = (maxnum - minnum);
+        minnum += 1;
+        setTimeout("goBack()",1000)
+    }
+    goBack();
+   </script>
+</div>
+   {% endblock %}
