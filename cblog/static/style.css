@@ -7,7 +7,7 @@ body {
   height: 100%;
   margin: 0;
   background: white;
-  max-width: 100%;
+  width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -32,14 +32,9 @@ body .flex{
 nav {
   display: flex;
 }
-nav .leftbar {
-  /*display: block; 
-  background: url(/static/css/cover.png);
-  width: 255px;
-  height: 100%;
-  text-align: center;
-  position: fixed;*/
-}
+
+
+
 nav .category ul {
   display: flex;
   width: 100%;
@@ -81,38 +76,156 @@ nav .category ul{
   padding: 0;
   list-style: none;
 }
-nav .navbar {
-  /*margin-left: 256px;*/
-  background: url(/static/css/cover.png);
+
+.custom-menu-wrapper {
+  white-space: nowrap;
+  position: relative;
   width: 100%;
-  height: 70px;
-  /*text-align: center;*/
+  background: url(/static/css/cover.png);
+}
+
+.custom-menu {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+  -webkit-font-smoothing: antialiased;
+}
+
+.custom-menu .pure-menu-link,
+.custom-menu .pure-menu-heading {
+  color: white;
+}
+
+.custom-menu .pure-menu-link:hover,
+.custom-menu .pure-menu-heading:hover {
+  background-color: transparent;
+}
+
+.custom-menu-top {
+  position: relative;
+  padding-top: .5em;
+  padding-bottom: .5em;
+}
+
+.custom-menu-brand {
   display: block;
-  position: fixed;
-}
-.navbar:first-child{
-  display: flex;
-}
-.sub:nth-child(1){
-  height: 100%;
-  flex: 1;
-}
-.sub:nth-child(2){
-  height: 100%;
-  flex: 1;
-}
-.sub:nth-child(3){
-  height: 100%;
-  flex: 1;
-}
-.navbar:nth-child(2){
+  text-align: center;
   position: relative;
 }
-nav .navbar a {
+
+.custom-menu-toggle {
+  width: 44px;
+  height: 44px;
+  display: block;
+  position: absolute;
+  top: 3px;
+  right: 0;
+  display: none;
+}
+
+.custom-menu-toggle .bar {
+  background-color: white;
+  display: block;
+  width: 20px;
+  height: 2px;
+  border-radius: 100px;
+  position: absolute;
+  top: 22px;
+  right: 12px;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.custom-menu-toggle .bar:first-child {
+  -webkit-transform: translateY(-6px);
+  -moz-transform: translateY(-6px);
+  -ms-transform: translateY(-6px);
+  transform: translateY(-6px);
+}
+
+.custom-menu-toggle.x .bar {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.custom-menu-toggle.x .bar:first-child {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+.custom-menu-screen {
+  background: url(/static/css/cover.png);
+  height: 3em;
+  width: 70em;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+}
+
+.custom-menu-tucked .custom-menu-screen {
+  -webkit-transform: translateY(-44px);
+  -moz-transform: translateY(-44px);
+  -ms-transform: translateY(-44px);
+  transform: translateY(-44px);
+}
+
+@media (max-width: 62em) {
+
+  .custom-menu {
+      display: block;
+  }
+
+  .custom-menu-toggle {
+      display: block;
+      display: none\9;
+  }
+
+  .custom-menu-bottom {
+      position: absolute;
+      width: 100%;
+      border-top: 1px solid #eee;
+      z-index: 100;
+      margin-top: -30px;
+  }
+
+  .custom-menu-bottom .pure-menu-link {
+      opacity: 1;
+      -webkit-transform: translateX(0);
+      -moz-transform: translateX(0);
+      -ms-transform: translateX(0);
+      transform: translateX(0);
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      -ms-transition: all 0.5s;
+      transition: all 0.5s;
+  }
+
+  .custom-menu-bottom.custom-menu-tucked .pure-menu-link {
+      -webkit-transform: translateX(-140px);
+      -moz-transform: translateX(-140px);
+      -ms-transform: translateX(-140px);
+      transform: translateX(-140px);
+      opacity: 0;
+      opacity: 1\9;
+  }
+
+  .pure-menu-horizontal.custom-menu-tucked {
+      z-index: -1;
+      top: 45px;
+      position: absolute;
+      overflow: hidden;
+  }
+}
+
+.custom-menu-wrapper a {
   text-decoration: none;
   color:whitesmoke;
-  margin-top:25px;
-  line-height: 30px;
 }
 nav .user{
   justify-content: flex-end;
@@ -137,15 +250,14 @@ nav ul  {
   list-style: none;
 }
 
-nav ul li a, nav ul li span, header .action {
+.custom-menu-wrapper  ul li a, nav ul li span, header .action {
   display: block;
   padding: 0.5rem;
 }
 
 .content {
-  padding: 0 1rem 1rem;
+  margin-top: 10px;
   min-height:100%;
-  margin-top: 70px;
 }
 
 .content > header {
@@ -245,7 +357,7 @@ height:30px;
 }
 table td, table th{
 border:1px solid #cad9ea;
-  slategray;
+color: slategray;
 padding:0 1em 0;
 }
 table tr.alter{

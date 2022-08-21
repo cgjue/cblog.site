@@ -1,9 +1,18 @@
 <!doctype html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width" />
 <meta http-equiv="Cache-Control" content="no-transform"/>
 <title>{% block title %}{% endblock %} - cblog</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="{{ url_for('static', filename='grids-responsive-old-ie-min.css') }}">
+<![endif]-->
+<!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='grids-responsive-min.css') }}">
+  <!--<![endif]-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='pure-min.css') }}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='plugins/highlight.min.css') }}">
 <script src="{{ url_for('static', filename='plugins/highlight.min.js') }}"></script>
 <script src="{{ url_for('static', filename='plugins/jquery.min.js') }}"></script>
@@ -41,35 +50,35 @@
         }
         if(!isWechat())document.getElementById('wechat').style.display='none'
     </script>
-<nav>
-<div class="navbar">
-  <div class="favicon">
-    <a href="{{ url_for('index') }}"><img src="{{url_for('static', filename='css/favicon.png')}}"/></a>
+  <div class="custom-menu-wrapper">
+      <div class="pure-menu custom-menu custom-menu-top">
+        <a class="pure-menu-heading custom-menu-brand" href="{{ url_for('index') }}">
+          <img src="{{url_for('static', filename='css/favicon.png')}}"/>
+        </a>
+          <a href="#" class="custom-menu-toggle" id="toggle"><s class="bar"></s><s class="bar"></s></a>
+      </div>  
+      <div  class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked" id="tuckedMenu">
+          <div class="custom-menu-screen"></div>
+          <ul class="pure-menu-list" >
+            {% for category in get_categories() %}
+                <li class="pure-menu-item">
+                <a href="{{ url_for('blog.category', id=category['id']) }}" >{{ category['value'] }}</a>
+                </li>
+            {% endfor %}
+            <div style="float: right;">
+            {% if g.user %}
+               <li class="pure-menu-item">
+                <a href="{{ url_for('admin.admin') }}" >{{ g.user['username'] }}</a>
+              </li>
+              <li class="pure-menu-item"><a href="{{ url_for('auth.logout') }}">退出</a></li>
+            {% else %}
+              <li class="pure-menu-item"><a href="{{ url_for('auth.register') }}">注册</a></li>
+              <li class="pure-menu-item"><a href="{{ url_for('auth.login') }}">登录</a></li>
+            {% endif %}
+          </div>
+        </ul>
+      </div>
   </div>
-  <section class="sub category">
-    <ul>
-        {% for category in get_categories() %}
-            <li>
-            <a href="{{ url_for('blog.category', id=category['id']) }}" >{{ category['value'] }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-  </section>
-  <ul class="sub user">
-    {% if g.user %}
-      <li>
-        <a href="{{ url_for('admin.admin') }}" >{{ g.user['username'] }}</a>
-      </li>
-      <li><a href="{{ url_for('auth.logout') }}">退出</a></li>
-    {% else %}
-      <li><a href="{{ url_for('auth.register') }}">注册</a></li>
-      <li><a href="{{ url_for('auth.login') }}">登录</a></li>
-    {% endif %}
-  </ul>
-</div>
-
-</nav>
-
 <section class="content">
   {% for message in get_flashed_messages() %}
     <div class="flash">{{ message }}</div>
@@ -82,5 +91,13 @@
   </ul>
 </div>
 <script>hljs.initHighlightingOnLoad();</script>
+<script>
+  (function (window, document) {
+      document.getElementById('toggle').addEventListener('click', function (e) {
+          document.getElementById('tuckedMenu').classList.toggle('custom-menu-tucked');
+          document.getElementById('toggle').classList.toggle('x');
+      });
+      })(this, this.document);
+</script>
 </body>
 </html>
