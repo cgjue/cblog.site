@@ -47,7 +47,7 @@ for item in category_tag:
 # In[65]:
 
 
-category
+print(category)
 
 
 # In[70]:
@@ -66,7 +66,10 @@ for item in posts_tag:
     title = item.text
     link = item.attrs['href']
     tmp = BeautifulSoup(requests.get(urllib.parse.urljoin(base, link)).content, 'html5lib')
-    cont = tmp.select('section[class=content] article div[class=body]')[0].text
+    try:
+        cont = tmp.select('section[class=content] article div[class=body]')[0].text
+    except:
+        cont = tmp.select('section[class=content] article div[id=editor-md]')[0].text
     about = tmp.select('section[class=content] article header div div')[0].text
     posts.append((id, title, cont, about))
 
@@ -74,7 +77,7 @@ for item in posts_tag:
 # In[82]:
 
 
-posts
+print(posts)
 
 
 # In[84]:
@@ -106,7 +109,7 @@ import sqlite3
 # In[120]:
 
 
-sqlite = sqlite3.connect('/home/jue/workspace/cblog.site/instance/cblog.sqlite')
+sqlite = sqlite3.connect('./instance/cblog.sqlite')
 
 
 # In[116]:
