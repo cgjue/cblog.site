@@ -26,7 +26,7 @@
     <a class="action" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
     {% endif %}
   </header>
-  <div id="editor-md">{{ post['body']|safe }}</div>
+  <div id="editor-md" style="padding: 0px;">{{ post['body']|safe }}</div>
   <div id="vcomments"></div>
 
   <script type="text/javascript">
