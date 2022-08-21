@@ -161,7 +161,7 @@ nav .category ul{
 
 .custom-menu-screen {
   background: url(/static/css/cover.png);
-  height: 3em;
+  height: 5em;
   width: 70em;
   position: absolute;
   top: 0;
@@ -226,6 +226,7 @@ nav .category ul{
 .custom-menu-wrapper a {
   text-decoration: none;
   color:whitesmoke;
+  font-size: 1.2em;
 }
 nav .user{
   justify-content: flex-end;
@@ -258,6 +259,7 @@ nav ul  {
 .content {
   margin-top: 10px;
   min-height:100%;
+  padding: 0 8px;
 }
 
 .content > header {
